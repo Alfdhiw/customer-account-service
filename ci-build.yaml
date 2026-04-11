@@ -26,11 +26,15 @@ jobs:
           pip install nose
           pip install flake8
 
-      - name: Lint code
+      - name: Check syntax
+        run: |
+          python -m py_compile $(git ls-files '*.py')
+
+      - name: Lint code with flake8
         run: |
           flake8 service --count --select=E9,F63,F7,F82 --show-source --statistics
           flake8 service --count --max-complexity=10 --max-line-length=127 --statistics
 
-      - name: Run unit tests
+      - name: Run unit tests with nosetests
         run: |
-          nosetests
+          nosetests -v
